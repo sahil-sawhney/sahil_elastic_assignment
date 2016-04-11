@@ -1,0 +1,66 @@
+
+<div class="container">
+	<div class="row">
+		<h1 style="color:white;background: #189DE1; text-align: center;">{{pageHeading}}</h1>
+	</div>
+
+	<br><br>
+
+
+	<div class="row">
+		<div class="col-md-2 col-sm-2 col-xs-1"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+			<label for="usr">Name : </label>
+			<input type="text" class="form-control" id="usr" ng-model="name.text">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 col-sm-2 col-xs-1"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+			<label for="usr">Email : </label>
+			<input type="text" class="form-control" id="usr" ng-model="email.text">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 col-sm-2 col-xs-1"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+			<label for="usr">Contact : </label>
+			<input type="text" class="form-control" id="usr" ng-model="mobile.text">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 col-sm-2 col-xs-1"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+			<label for="usr">Address : </label>
+			<input type="text" class="form-control" id="usr" ng-model="address.text">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 col-sm-2 col-xs-1"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+			<label for="usr">Alternate Contact : </label>
+			<input type="text" class="form-control" id="usr" ng-model="alternatecontact.text">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3"></div>
+	</div>
+	<br>
+
+	<div class="row">
+	<div class="col-md-2 col-sm-2 col-xs-2"></div>
+		<button type="button" style="font-size: 18px" class="btn btn-primary col-md-2 col-sm-2 col-xs-3" ng-click="alterIntern(name.text, email.text, mobile.text, address.text, alternatecontact.text)">{{buttonName}}</button>
+	<div class="col-md-1 col-sm-1 col-xs-1"></div>
+		<button type="button" style="font-size: 18px" class="btn btn-warning col-md-2 col-sm-2 col-xs-3" ng-click="cancel()">Cancel</button>
+	<div class="col-md-5 col-sm-5 col-xs-3"></div>
+	</div>
+</div>
+
+<br><br><br>
+

@@ -1,0 +1,194 @@
+<!doctype html>
+<html ng-app="demoModule">
+	<head>
+		<title>Intern Details</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" type="text/css" href="internStyle.css">		
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<div >
+			<header class="container-fluid">
+			    <div class="row header">
+			        <p class="myHeader" Style="color:white"><b>Knoldu<span style="color:lime">$</span> Intern<span style="color:lime">$</span></b></p>
+			    </div>
+			</header>
+			<br>
+			<div ng-view></div>
+		</div>
+		
+		<script src="assets/js/jquery-2.2.0.min.js"></script>
+		<script src="assets/js/angular.min.js"></script>
+		<script src="assets/js/angular-route.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		
+		<script>
+
+		var demoModule=angular.module('demoModule',['ngRoute']);
+
+			demoModule.config(function($routeProvider){
+				$routeProvider
+				.when('/',{
+					controller:'homeCtrl',
+					templateUrl:'partial1.html'
+				})
+				.when('/v2/:id',{
+					controller:'changeCtrl',
+					templateUrl:'partial2.html'
+				})
+				.otherwise({redirectTo:'/'});
+			});
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+			 demoModule.controller('homeCtrl', ['$scope','$location','homeFactory','$routeParams',function($scope,$location, homeFactory, $routeParams){
+
+			 	$scope.internRecord="sahil"
+				homeFactory.getInternList()
+            	.success(function (intern) {
+                	$scope.internList = intern;
+            	})
+            	.error(function (error) {
+                	$scope.status = 'Unable to load customer data: ' + error.message;
+            	});
+
+
+            	$scope.deleteIntern=function(id){
+
+				homeFactory.deleteIntern(id)
+            	.success(function (value) {
+                	homeFactory.getInternList()
+            		.success(function (intern) {
+                		$scope.internList = intern;
+            		})
+            		.error(function (error) {
+                		$scope.status = 'Unable to load customer data: ' + error.message;
+            		});
+            	})
+            	.error(function (error) {
+                	$scope.status = 'Unable to load customer data: ' + error.message;
+            	});
+            			
+				};	
+
+				$scope.edit=function(id){
+
+					$location.path('/v2/'+ id);
+				}
+
+				$scope.add=function(){
+
+					$location.path('/v2/'+ "-1");
+				}
+
+			}]);
+
+			 demoModule.factory('homeFactory', ['$http',function($http){
+				var factory={};
+
+				factory.getInternList=function(){
+					return $http.get('http://localhost:9000/allInterns');
+				}
+
+				factory.deleteIntern = function (id) {
+        			return $http.get('http://localhost:9000/deleteIntern/' + id);
+    			};
+
+				return factory;
+			}]);
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+			 demoModule.controller('changeCtrl',['$scope', '$location', '$routeParams', 'changeFactory',function($scope,$location,$routeParams,changeFactory){
+
+			 		var id=$routeParams.id;
+			 		if(id!="-1"){
+
+			 			$scope.pageHeading="Edit Intern Credentials"
+			 			$scope.buttonName="Edit"
+						changeFactory.getIntern(id)
+	            		.success(function (internRec) {        			
+	            			$scope.internRecord = internRec;
+	            			$scope.name = {
+	        					text: internRec.name
+	      					};
+	      					$scope.email = {
+	        					text: internRec.email
+	      					};
+	      					$scope.address = {
+	        					text: internRec.address
+	      					};
+	      					$scope.mobile = {
+	        					text: internRec.mobile
+	      					};
+	      					$scope.alternatecontact = {
+	        					text: internRec.alternateContact
+	      					};		
+	            		})
+	            		.error(function (error) {
+	                		$scope.status = 'Unable to load customer data: ' + error.message;
+	            		});
+            		}
+            		else{
+
+            			$scope.pageHeading="Add New Intern"
+            			$scope.buttonName="+ Add"
+            		}
+
+
+            		$scope.cancel=function(){
+
+            			$location.path('/');
+            		}
+
+            		$scope.alterIntern=function(name, email, mobile, address, alternatecontact){
+
+            			if(id!="-1"){
+            				var jsonIntern = parseToJson(name, email, mobile, address, alternatecontact, $scope.internRecord.id);
+            			}
+            			else{
+            				var jsonIntern = parseToJson(name, email, mobile, address, alternatecontact, "-1");
+            			}
+
+            			changeFactory.alterIntern(jsonIntern)
+            			.success(function (value) {
+            				$location.path('/');
+            			})
+            			.error(function (error) {
+                			$scope.status = 'Unable to edit intern data: ' + error.message;
+            			});
+            		};	
+
+
+            		var parseToJson=function(name, email, mobile, address, alternatecontact, id){
+
+            			var jsonIntern={"name":name,"email":email,"mobile":mobile,"address":address,"alternateContact":alternatecontact,"id":id.toString()};
+            			return jsonIntern;
+            		}
+			 }]);
+
+			demoModule.factory('changeFactory',['$http',function($http){
+
+				var factory={};
+
+				factory.getIntern = function (id) {
+        			return $http.get('http://localhost:9000/getIntern/' + id);
+    			};
+
+    			factory.alterIntern = function (intern) {
+    				if(intern.id!="-1"){
+        				return $http.get('http://localhost:9000/editIntern/'+ JSON.stringify(intern));
+        			}
+        			else{
+        				return $http.get('http://localhost:9000/addIntern/'+ JSON.stringify(intern));
+        			}
+    			};
+
+				return factory;
+			}]);			
+
+		</script>
+	</body>
+</html>

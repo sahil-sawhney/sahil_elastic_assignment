@@ -1,0 +1,69 @@
+
+<div class="container">
+	
+	<h2 style="text-align: center; color: red"><b>Search Intern:</b></h2>
+	<div class="row">
+		<div class="col-md-4 col-sm-4 col-xs-2"></div>
+		<div class="form-group col-md-4 col-sm-4 col-xs-8">
+	  		<label for="usr">Name : </label>
+	  		<input type="text" class="form-control" id="usr" ng-model="namez">
+		</div>
+		<div class="col-md-4 col-sm-4 col-xs-2"></div>
+	</div>
+	
+	<br>
+
+	<div class="row">
+		<div class="col-md-5 col-sm-5 col-xs-4"></div>
+		<button type="button" style="text-align: center; font-size: 18px" class="col-md-2 col-sm-2 col-xs-4 btn btn-success " ng-click="add()">+ Add</button>
+		<div class="col-md-5 col-sm-5 col-xs-4"></div>
+	</div>
+
+	<div class="row" style="text-align: center">{{status}}</div>
+	<br><br>
+
+	<div class="container">
+        <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="intern in internList | filter:namez | orderBy:'name'">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="font-size:18px">
+                            {{intern.name}}
+                        </div>
+                        <div class="panel-body" style="background:#e5e5e5; font-size:12px">
+                            <div class="row" >
+                                <div class="col-md-5 col-sm-5 col-xs-5" style="color:purple">Email :</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7">{{intern.email}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-xs-5" style="color:purple">Contact :</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7">{{intern.mobile}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-xs-5" style="color:purple">Address :</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7">{{intern.address}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-xs-5" style="color:purple">Alternate Contact :</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7">{{intern.alternateContact}}</div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6" style="text-align:center">
+                                    <a class="btn btn-success" ng-click="edit(intern.id)">Edit</a>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-6" style="text-align:center">
+                                    <a class="btn btn-danger" ng-click="deleteIntern(intern.id)">Delete</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+	
+	
+</div>
